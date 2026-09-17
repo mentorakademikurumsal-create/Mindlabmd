@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindLab - Sonsuz Antrenman</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .workout-hero {
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .workout-hero h1 { font-size: 28px; margin-bottom: 10px; }
+        .workout-hero p { font-size: 15px; opacity: 0.9; margin-bottom: 25px; line-height: 1.5; }
+        .start-btn {
+            background: white;
+            color: #2193b0;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .start-btn:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Minimalist Header -->
+        <header class="top-nav" style="border-bottom: none; padding-bottom: 0;">
+            <div class="user-info">
+                <img id="user-avatar" src="https://ui-avatars.com/api/?name=User&background=2193b0&color=fff&rounded=true" alt="Avatar" class="avatar">
+                <div>
+                    <h2 id="user-greeting">Merhaba, 👋</h2>
+                </div>
+            </div>
+            <div class="streak">
+                <i class="fas fa-fire" style="color: #e74c3c;"></i> 4 Gün
+            </div>
+        </header>
+
+        <!-- Endless Workout Call to Action -->
+        <section class="workout-hero">
+            <h1>Zihin Antrenmanı</h1>
+            <p>Ders, konu veya sınır yok. Karşına ne çıkacağını bilemezsin. Zihinsel sınırlarını zorlamaya hazır mısın?</p>
+            <button class="start-btn" onclick="window.location.href='workout.html'">
+                <i class="fas fa-play"></i> Sonsuz Akışa Başla
+            </button>
+        </section>
+
+        <!-- Bugünkü İlerleme / Günlük Rapor -->
+        <section style="padding: 0 20px;">
+            <h3 style="font-size: 16px; color: #2c3e50; margin-bottom: 15px;">📅 Bugünkü İlerlemen</h3>
+            
+            <div style="background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: center;">
+                    <i class="fas fa-check-circle" style="font-size: 24px; color: #2ecc71; margin-bottom: 8px;"></i>
+                    <div style="font-size: 22px; font-weight: bold; color: #2c3e50;" id="daily-solved">0</div>
+                    <div style="font-size: 11px; color: #7f8c8d;">Çözülen Soru</div>
+                </div>
+                
+                <div style="width: 1px; height: 50px; background: #eee;"></div>
+                
+                <div style="text-align: center;">
+                    <i class="fas fa-bullseye" style="font-size: 24px; color: #3498db; margin-bottom: 8px;"></i>
+                    <div style="font-size: 22px; font-weight: bold; color: #2c3e50;" id="daily-accuracy">%0</div>
+                    <div style="font-size: 11px; color: #7f8c8d;">Doğruluk</div>
+                </div>
+                
+                <div style="width: 1px; height: 50px; background: #eee;"></div>
+                
+                <div style="text-align: center;">
+                    <i class="fas fa-clock" style="font-size: 24px; color: #f39c12; margin-bottom: 8px;"></i>
+                    <div style="font-size: 22px; font-weight: bold; color: #2c3e50;" id="daily-time">0 dk</div>
+                    <div style="font-size: 11px; color: #7f8c8d;">Harcanan Süre</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+            <div class="nav-item active"><i class="fas fa-home"></i><br>Ana Sayfa</div>
+            <div class="nav-item"><i class="fas fa-user"></i><br>Profil</div>
+        </nav>
+    </div>
+
+    <script>
+        // Kullanıcı Adını LocalStorage'dan alıp ekrana yazdır
+        const userName = localStorage.getItem('userName') || 'Öğrenci';
+        document.getElementById('user-greeting').innerText = `Merhaba, ${userName.split(' ')[0]} 👋`;
+        document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${userName}&background=2193b0&color=fff&rounded=true`;
+
+        // LocalStorage'dan çözülen soruların sayısını çek
+        const solvedIds = JSON.parse(localStorage.getItem('solvedQuestions') || '[]');
+        document.getElementById('daily-solved').innerText = solvedIds.length;
+        
+        // Eğer soru çözmüşse, tutarlılık için tahmini değerler göster (Demo simülasyonu)
+        if (solvedIds.length > 0) {
+            document.getElementById('daily-accuracy').innerText = "%" + Math.floor(Math.random() * 20 + 70); // %70-90
+            document.getElementById('daily-time').innerText = (solvedIds.length * 1.5).toFixed(0) + " dk";
+        }
+    </script>
+</body>
+</html>

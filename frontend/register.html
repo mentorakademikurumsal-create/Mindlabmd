@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindLab - Kayıt Ol</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .register-container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .logo { font-size: 32px; font-weight: 900; color: #2c3e50; margin-bottom: 5px; }
+        .logo span { color: #3498db; }
+        .subtitle { color: #7f8c8d; margin-bottom: 30px; font-size: 14px; }
+        
+        .role-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+        .role-option {
+            flex: 1; padding: 10px; border: 2px solid #eee; border-radius: 10px; cursor: pointer;
+            font-weight: bold; color: #7f8c8d; transition: 0.2s;
+        }
+        .role-option.active { border-color: #3498db; background: #ebf5fb; color: #2980b9; }
+
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; color: #7f8c8d; margin-bottom: 5px; font-weight: bold; }
+        .input-group input, .input-group select {
+            width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; font-size: 15px; outline: none; transition: 0.2s;
+        }
+        .input-group input:focus, .input-group select:focus { border-color: #3498db; }
+
+        .submit-btn {
+            width: 100%; padding: 15px; border: none; border-radius: 12px; background: #2ecc71; color: white;
+            font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s;
+        }
+        .submit-btn:hover { background: #27ae60; }
+        
+        .login-link { margin-top: 20px; font-size: 13px; color: #7f8c8d; }
+        .login-link a { color: #3498db; font-weight: bold; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="logo">Mind<span>Lab</span></div>
+        <p class="subtitle">Aramıza Katıl ve Zihnini Geliştir</p>
+
+        <!-- Koç Davet Bildirimi (URL'de parametre varsa script ile gösterilecek) -->
+        <div id="invite-banner" style="display: none; background: #eafaf1; color: #1e8449; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #2ecc71; font-size: 13px; font-weight: bold; text-align: left;">
+            <i class="fas fa-check-circle"></i> Bir koç tarafından davet edildiniz! Kayıt olduktan sonra otomatik olarak koçunuzun sınıfına ekleneceksiniz.
+        </div>
+
+        <div class="role-selector">
+            <div class="role-option active" id="role-student" onclick="setRole('student')">Öğrenci</div>
+            <div class="role-option" id="role-coach" onclick="setRole('coach')">Koç / Öğretmen</div>
+        </div>
+
+        <div class="input-group">
+            <label>Ad Soyad</label>
+            <input type="text" id="reg-name" placeholder="Adınız Soyadınız" required>
+        </div>
+
+        <div class="input-group">
+            <label>E-Posta</label>
+            <input type="email" id="reg-email" placeholder="ornek@mail.com" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Şifre</label>
+            <input type="password" id="reg-password" placeholder="Şifreniz" required>
+        </div>
+
+        <div class="input-group" id="student-fields">
+            <label>Sınıf Seviyeniz</label>
+            <select id="grade-select">
+                <option value="5">5. Sınıf</option>
+                <option value="6">6. Sınıf</option>
+                <option value="7" selected>7. Sınıf</option>
+                <option value="8">8. Sınıf</option>
+            </select>
+        </div>
+
+        <div class="input-group" id="coach-fields" style="display: none;">
+            <label>Kurum / Okul Adı</label>
+            <input type="text" id="reg-school" placeholder="Görev yaptığınız okul">
+        </div>
+
+        <button class="submit-btn" onclick="registerUser()">Hesap Oluştur</button>
+
+        <div class="login-link">
+            Zaten hesabın var mı? <a href="index.html">Giriş Yap</a>
+        </div>
+    </div>
+
+    
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('name').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            const grade = parseInt(document.getElementById('grade').value) || 7;
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, role, grade })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('currentRole', data.role);
+                    localStorage.setItem('userName', data.username);
+                    localStorage.setItem('userGrade', data.grade);
+
+                    if (data.role === 'Öğrenci') {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        window.location.href = 'coach_dashboard.html';
+                    }
+                } else {
+                    alert('Kayıt başarısız: ' + (data.detail || 'Bilinmeyen hata'));
+                }
+            } catch (err) {
+                alert('Sunucuya bağlanılamadı!');
+            }
+        });
+    </script>
+
+</body>
+</html>

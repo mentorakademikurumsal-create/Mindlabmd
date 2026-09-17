@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindLab - Koç Paneli</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f8f9fa; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .coach-header { background: #d35400; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .coach-header h1 { margin: 0; font-size: 20px; }
+        
+        .container { padding: 20px; max-width: 800px; margin: 0 auto; }
+        .section-title { font-size: 16px; color: #7f8c8d; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+
+        .student-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .student-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px; }
+        .student-info { display: flex; align-items: center; gap: 15px; }
+        .student-avatar { width: 50px; height: 50px; border-radius: 25px; background: #e67e22; color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; }
+        .student-name { font-size: 18px; font-weight: bold; color: #2c3e50; margin: 0; }
+        .student-grade { font-size: 13px; color: #7f8c8d; margin: 0; }
+        
+        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .metric { background: #fdfefe; border: 1px solid #eee; padding: 10px 15px; border-radius: 8px; }
+        .metric span { display: block; font-size: 11px; color: #95a5a6; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .metric strong { font-size: 16px; color: #34495e; }
+        
+        .weakness-alert { background: #fdedec; color: #c0392b; padding: 10px 15px; border-radius: 8px; font-size: 13px; display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .strength-alert { background: #eafaf1; color: #1e8449; padding: 10px 15px; border-radius: 8px; font-size: 13px; display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+
+        .assign-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: #e67e22; color: white; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .assign-btn:hover { background: #d35400; }
+    </style>
+</head>
+<body>
+    <header class="coach-header">
+        <h1><i class="fas fa-chalkboard-teacher"></i> Koç Paneli</h1>
+        <i class="fas fa-sign-out-alt" style="cursor: pointer;" onclick="window.location.href='index.html'"></i>
+    </header>
+
+    <div class="container">
+        
+        <!-- DAVET LİNKİ PANELİ -->
+        <div style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; align-items: center; border-left: 5px solid #3498db;">
+            <div style="flex: 1 1 300px;">
+                <h3 style="margin: 0 0 5px 0; color: #2c3e50; font-size: 16px;">Sınıfını Oluştur & Öğrencilerini Davet Et</h3>
+                <p style="margin: 0; color: #7f8c8d; font-size: 13px;">Aşağıdaki butonları kullanarak davet linkini kopyalayabilir veya doğrudan WhatsApp üzerinden öğrencilerine gönderebilirsin.</p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button onclick="copyInviteLink()" style="background: #3498db; color: white; border: none; padding: 12px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; white-space: nowrap; transition: 0.2s;"><i class="fas fa-copy"></i> Linki Kopyala</button>
+                <button onclick="shareOnWhatsApp()" style="background: #25D366; color: white; border: none; padding: 12px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; white-space: nowrap; transition: 0.2s;"><i class="fab fa-whatsapp"></i> WhatsApp'ta Gönder</button>
+            </div>
+        </div>
+
+        <!-- GÜNLÜK GENEL ANALİZ -->
+        <h2 class="section-title">📅 Bugünün Genel Analizi (23 Ağustos)</h2>
+        <div class="metrics-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-bottom: 30px;">
+            <div class="metric" style="background: #eaf2f8; border-color: #3498db;">
+                <span>Toplam Çözülen Soru</span>
+                <strong style="color: #2980b9; font-size: 20px;">342 Soru</strong>
+            </div>
+            <div class="metric" style="background: #fdf2e9; border-color: #e67e22;">
+                <span>Sınıf Ort. Bekleme Süresi</span>
+                <strong style="color: #d35400; font-size: 20px;">2.4 Saniye</strong>
+            </div>
+            <div class="metric" style="background: #f9ebea; border-color: #e74c3c;">
+                <span>En Çok Hata Yapılan Alan</span>
+                <strong style="color: #c0392b; font-size: 16px;">Veri Okuryazarlığı</strong>
+            </div>
+        </div>
+
+        <h2 class="section-title">Öğrencilerim & Bilişsel Teşhisler</h2>
+
+        <!-- Student 1 -->
+        <div class="student-card">
+            <div class="student-header">
+                <div class="student-info">
+                    <div class="student-avatar">A</div>
+                    <div>
+                        <p class="student-name">Ali Yılmaz</p>
+                        <p class="student-grade">7. Sınıf - Aktiflik: 4 Gün Serisi</p>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <strong style="font-size: 20px; color: #2ecc71;">%78</strong><br>
+                    <span style="font-size: 11px; color: #7f8c8d;">Genel Başarı</span>
+                </div>
+            </div>
+
+            <!-- GÜNLÜK ÖĞRENCİ AKTİVİTESİ -->
+            <div style="background: #f4f6f7; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; display: flex; justify-content: space-between; color: #34495e;">
+                <span><strong>Bugünkü Antrenman:</strong> 15 Soru Çözdü</span>
+                <span><strong>Harcanan Süre:</strong> 18 Dakika</span>
+                <span><strong>Bugünkü Doğruluk:</strong> %85</span>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric"><span>İşlem Belleği</span><strong>Yüksek (%85)</strong></div>
+                <div class="metric"><span>Dürtü Kontrolü</span><strong style="color: #e74c3c;">Düşük (1.2sn)</strong></div>
+                <div class="metric"><span>Bilişsel Esneklik</span><strong>Orta (%60)</strong></div>
+                <div class="metric"><span>Veri Okuryazarlığı</span><strong>İyi (%75)</strong></div>
+            </div>
+            
+            <div class="weakness-alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div><strong>Yapay Zeka Teşhisi:</strong> Ali bugünkü sorularda çok hızlı karar verdi. Matematikte işlem hatası yapmıyor ancak bağlamdaki mantık hatalarını okumadan atlıyor.</div>
+            </div>
+            
+            <button class="assign-btn" onclick="alert('Dürtü Kontrolü ağırlıklı 10 soruluk Özel Zihin Reçetesi Ali\\'ye gönderildi!')"><i class="fas fa-paper-plane"></i> Dürtü Kontrolü Reçetesi Ata</button>
+        </div>
+
+        <!-- Student 2 -->
+        <div class="student-card">
+            <div class="student-header">
+                <div class="student-info">
+                    <div class="student-avatar" style="background: #8e44ad;">Z</div>
+                    <div>
+                        <p class="student-name">Zeynep Kaya</p>
+                        <p class="student-grade">8. Sınıf - Aktiflik: 1 Gün Serisi</p>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <strong style="font-size: 20px; color: #f39c12;">%55</strong><br>
+                    <span style="font-size: 11px; color: #7f8c8d;">Genel Başarı</span>
+                </div>
+            </div>
+            
+            <!-- GÜNLÜK ÖĞRENCİ AKTİVİTESİ -->
+            <div style="background: #f4f6f7; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; display: flex; justify-content: space-between; color: #34495e;">
+                <span><strong>Bugünkü Antrenman:</strong> 4 Soru Çözdü <i class="fas fa-exclamation-circle" style="color:#e74c3c"></i></span>
+                <span><strong>Harcanan Süre:</strong> 3 Dakika</span>
+                <span><strong>Bugünkü Doğruluk:</strong> %50</span>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric"><span>İşlem Belleği</span><strong style="color: #e74c3c;">Düşük (%40)</strong></div>
+                <div class="metric"><span>Dürtü Kontrolü</span><strong>Çok İyi (3.5sn)</strong></div>
+            </div>
+            
+            <div class="strength-alert">
+                <i class="fas fa-check-circle"></i>
+                <div><strong>Yapay Zeka Teşhisi:</strong> Zeynep yeterince bekliyor ve düşünüyor ancak Fen verilerini analiz ederken işlem basamaklarını aklında tutmakta zorlanıyor.</div>
+            </div>
+            
+            <button class="assign-btn" style="background:#8e44ad;" onclick="alert('İşlem Belleği ağırlıklı Zihin Reçetesi Zeynep\\'e gönderildi!')"><i class="fas fa-paper-plane"></i> İşlem Belleği Reçetesi Ata</button>
+        </div>
+
+    </div>
+
+    <script>
+        function copyInviteLink() {
+            // Demo için bir davet linki simüle ediyoruz
+            const inviteLink = window.location.origin + window.location.pathname.replace('coach_dashboard.html', 'register.html') + "?coach_invite=KOC12345";
+            
+            // Linki panoya kopyala
+            navigator.clipboard.writeText(inviteLink).then(() => {
+                alert("Davet Linki Başarıyla Kopyalandı!\n\nÖğrencilerinize göndereceğiniz link:\n" + inviteLink);
+            }).catch(err => {
+                alert("Kopyalama başarısız oldu: " + err);
+            });
+        }
+
+        function shareOnWhatsApp() {
+            const inviteLink = window.location.origin + window.location.pathname.replace('coach_dashboard.html', 'register.html') + "?coach_invite=KOC12345";
+            const message = encodeURIComponent("Zihin antrenmanlarına başlamak ve sınıfıma katılmak için tıkla: " + inviteLink);
+            window.open("https://wa.me/?text=" + message, "_blank");
+        }
+    </script>
+</body>
+</html>
