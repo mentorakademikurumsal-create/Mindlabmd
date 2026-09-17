@@ -2,80 +2,35 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindLab - Giriş Yap</title>
+    <title>Giriş - MindLab</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .login-container {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
+        .login-container input {
             width: 100%;
-            max-width: 400px;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
         }
-        .logo { font-size: 32px; font-weight: 900; color: #2c3e50; margin-bottom: 5px; }
-        .logo span { color: #3498db; }
-        .subtitle { color: #7f8c8d; margin-bottom: 30px; font-size: 14px; }
-        
-        .role-selector { display: flex; gap: 10px; margin-bottom: 20px; }
-        .role-option {
-            flex: 1; padding: 10px; border: 2px solid #eee; border-radius: 10px; cursor: pointer;
-            font-weight: bold; color: #7f8c8d; transition: 0.2s;
-        }
-        .role-option.active { border-color: #3498db; background: #ebf5fb; color: #2980b9; }
-
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 13px; color: #7f8c8d; margin-bottom: 5px; font-weight: bold; }
-        .input-group input {
-            width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; font-size: 15px; outline: none; transition: 0.2s;
-        }
-        .input-group input:focus { border-color: #3498db; }
-
-        .submit-btn {
-            width: 100%; padding: 15px; border: none; border-radius: 12px; background: #3498db; color: white;
-            font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s;
-        }
-        .submit-btn:hover { background: #2980b9; }
-        
-        .register-link { margin-top: 20px; font-size: 13px; color: #7f8c8d; }
-        .register-link a { color: #3498db; font-weight: bold; text-decoration: none; }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="logo">Mind<span>Lab</span></div>
-        <p class="subtitle">Zihinsel Gelişim Platformuna Hoş Geldiniz</p>
-
-        <div class="role-selector">
-            <div class="role-option active" id="role-student" onclick="setRole('student')">Öğrenci</div>
-            <div class="role-option" id="role-coach" onclick="setRole('coach')">Koç / Öğretmen</div>
-        </div>
-
-        <div class="input-group">
-            <label>E-Posta</label>
-            <input type="email" id="login-email" placeholder="ornek@mail.com" required>
-        </div>
-        
-        <div class="input-group">
-            <label>Şifre</label>
-            <input type="password" id="login-password" placeholder="Şifreniz" required>
-        </div>
-
-        <button class="submit-btn" onclick="loginUser()">Giriş Yap</button>
-
-        <div class="register-link">
-            Hesabın yok mu? <a href="register.html">Kayıt Ol</a>
-        </div>
+        <h2>MindLab</h2>
+        <form id="login-form">
+            <input type="text" id="login-name" placeholder="Kullanıcı Adı" required>
+            <input type="password" id="login-password" placeholder="Şifre" required>
+            <button type="submit" class="btn" style="margin-top:10px; width:100%;">Giriş Yap</button>
+        </form>
+        <p style="margin-top: 15px; text-align:center;">Hesabın yok mu? <a href="register.html">Kayıt Ol</a></p>
     </div>
 
-    
     <script>
         document.getElementById('login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const username = document.getElementById('login-email').value; // Using email field for username
+            e.preventDefault(); // Sayfanın yenilenmesini engeller
+            const username = document.getElementById('login-name').value;
             const password = document.getElementById('login-password').value;
 
             try {
@@ -84,20 +39,14 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
                 });
-
                 const data = await response.json();
-
+                
                 if (response.ok) {
                     localStorage.setItem('token', data.access_token);
                     localStorage.setItem('currentRole', data.role);
                     localStorage.setItem('userName', data.username);
                     localStorage.setItem('userGrade', data.grade);
-
-                    if (data.role === 'Öğrenci') {
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        window.location.href = 'coach_dashboard.html';
-                    }
+                    window.location.href = data.role === 'Öğrenci' ? 'dashboard.html' : 'coach_dashboard.html';
                 } else {
                     alert('Giriş başarısız: ' + (data.detail || 'Bilinmeyen hata'));
                 }
@@ -106,6 +55,5 @@
             }
         });
     </script>
-
 </body>
 </html>
