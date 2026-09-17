@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <title>Kayıt Ol - MindLab</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Sadece bu sayfadaki yeni kutuları diğerleriyle uyumlu hale getiren makyaj */
+        .login-container select, 
+        .login-container input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: inherit;
+            background-color: #fff;
+        }
+        .login-container select:focus, 
+        .login-container input[type="number"]:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container">
@@ -15,7 +35,7 @@
                 <option value="Öğrenci">Öğrenci</option>
                 <option value="Koç">Eğitim Koçu</option>
             </select>
-            <input type="number" id="reg-grade" placeholder="Sınıfınız (Örn: 7)" value="7" required>
+            <input type="number" id="reg-grade" placeholder="Sınıfınız (Örn: 7)" value="7" min="1" max="12" required>
             <button type="submit" class="btn" style="margin-top:10px; width:100%;">Kayıt Ol</button>
         </form>
         <p style="margin-top: 15px; text-align:center;">Zaten hesabın var mı? <a href="index.html">Giriş Yap</a></p>
